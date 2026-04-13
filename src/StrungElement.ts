@@ -32,10 +32,6 @@ export class StrungElement {
     owner.addEventListener('change', () => this.#reposition());
   }
 
-  get domNode() {
-    return this.#element.domNode;
-  }
-
   #cacheLineX() {
     let centerPoint = { x: this.#element.centerX, y: this.#element.centerY };
 
@@ -57,6 +53,10 @@ export class StrungElement {
 
     // don't forget to normalize to line direction
     this.#element.domNode.dataset.displacementDirection = `${direction(linePoint, centerPoint) - linePoint.direction}`;
+  }
+
+  get domNode() {
+    return this.#element.domNode;
   }
 
   get lineX(): number {
