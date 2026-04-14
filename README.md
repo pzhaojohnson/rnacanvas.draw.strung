@@ -167,7 +167,13 @@ strungElement.lineX = 10;
 
 // place 10 pixels before the midpoint of the owner bond
 strungElement.lineX = -10;
+
+// is stored under the `data-line-x` attribute
+strungElement.domNode.dataset.lineX; // "-10"
 ```
+
+This value is stored under the `data-line-x` attribute,
+which allows for watching for changes to it using mutation observers.
 
 ### `displacementMagnitude`
 
@@ -188,7 +194,13 @@ strungElement.lineX = 0;
 // (at a 90 degree angle)
 strungElement.displacementMagnitude = 10;
 strungElement.displacementDirection = Math.PI / 2;
+
+// is stored under the `data-displacement-magnitude` attribute
+strungElement.domNode.dataset.displacementMagnitude; // "10"
 ```
+
+This value is stored under the `data-displacement-magnitude` attribute,
+which allows for watching for changes to it using mutation observers.
 
 ### `displacementDirection`
 
@@ -212,7 +224,13 @@ strungElement.lineX = 0;
 // (at a 90 degree angle)
 strungElement.displacementMagnitude = 10;
 strungElement.displacementDirection = Math.PI / 2;
+
+// is stored under the `data-displacement-direction` attribute
+strungElement.domNode.dataset.displacementDirection; // "1.5707963267948966"
 ```
+
+This value is stored under the `data-displacement-direction` attribute,
+which allows for watching for changes to it using mutation observers.
 
 ### `displacementX`
 
@@ -238,6 +256,12 @@ strungElement.displacementX = 10 / 2**0.5;
 strungElement.displacementY = 10 / 2**0.5;
 ```
 
+Since displacement X component is derived from displacement magnitude and direction,
+its value is not directly stored as a data attribute.
+
+Mutation observers watching `data-displacement-magnitude` and `data-displacement-direction` attributes
+may be used to watch for changes to displacement Y component.
+
 ### `displacementY`
 
 The Y component of the strung element's displacement from the line of its owner element.
@@ -261,6 +285,12 @@ strungElement.lineX = 0;
 strungElement.displacementX = 10 / 2**0.5;
 strungElement.displacementY = 10 / 2**0.5;
 ```
+
+Since displacement Y component is derived from displacement magnitude and direction,
+its value is not directly stored as a data attribute.
+
+Mutation observers watching `data-displacement-magnitude` and `data-displacement-direction` attributes
+may be used to watch for changes to displacement Y component.
 
 ### `drag()`
 
