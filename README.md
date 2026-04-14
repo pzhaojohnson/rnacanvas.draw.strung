@@ -260,7 +260,7 @@ Since displacement X component is derived from displacement magnitude and direct
 its value is not directly stored as a data attribute.
 
 Mutation observers watching `data-displacement-magnitude` and `data-displacement-direction` attributes
-may be used to watch for changes to displacement Y component.
+may be used to watch for changes to displacement X component.
 
 ### `displacementY`
 
