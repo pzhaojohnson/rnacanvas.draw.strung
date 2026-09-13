@@ -146,6 +146,29 @@ var strungElement = new StrungElement(circle, owner);
 strungElement.domNode === circle.domNode; // true
 ```
 
+### `rotation`
+
+The rotation of a strung element relative to the owner element's direction (in radians).
+
+Only affects wrapped elements that implement `Directed` (have a `direction` property).
+
+The `rotation` value is stored under the `data-rotation` attribute on the wrapped element's DOM node.
+
+```javascript
+var triangle = Triangle.create();
+
+// any bond (e.g., a primary or secondary bond)
+var owner;
+
+var strungElement = new StrungElement(triangle, owner);
+
+// rotate the triangle 30 degrees (pi/6) relative to the owner direction
+strungElement.rotation = Math.PI / 6;
+
+// stored under the `data-rotation` attribute
+strungElement.domNode.dataset.rotation; // "0.5235987755982988"
+```
+
 ### `lineX`
 
 The length along the owner element (relative to the midpoint of the owner)
@@ -231,6 +254,7 @@ strungElement.domNode.dataset.displacementDirection; // "1.5707963267948966"
 
 This value is stored under the `data-displacement-direction` attribute,
 which allows for watching for changes to it using mutation observers.
+
 
 ### `displacementX`
 

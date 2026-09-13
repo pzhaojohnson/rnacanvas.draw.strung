@@ -59,6 +59,36 @@ export class StrungElement {
     return this.#element.domNode;
   }
 
+  /**
+   * Rotation relative to the owner's direction, in radians.
+   */
+  get rotation(): number {
+    let rotation: number;
+
+    if (this.#element.domNode.dataset.rotation) {
+      rotation = Number.parseFloat(this.#element.domNode.dataset.rotation);
+    } else {
+      rotation = 0;
+    }
+
+    if (!Number.isFinite(rotation)) {
+      rotation = 0;
+    }
+
+    return rotation;
+  }
+
+  set rotation(rotation) {
+    if (!Number.isFinite(rotation)) {
+      console.error(`The specified rotation is nonfinite: ${rotation}.`);
+      return;
+    }
+
+    this.#element.domNode.dataset.rotation = `${rotation}`;
+
+    this.#reposition();
+  }
+
   get lineX(): number {
     let lineX: number;
 
@@ -204,7 +234,7 @@ export class StrungElement {
 
     // if the element has a direction property
     if ('direction' in this.#element) {
-      this.#element.direction = linePoint.direction;
+      this.#element.direction = linePoint.direction + this.rotation;
     }
   }
 

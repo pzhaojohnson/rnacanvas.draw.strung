@@ -129,6 +129,65 @@ describe('`class StrungElement`', () => {
     expect(element.domNode).toBeTruthy();
   });
 
+  test('`rotation()`', () => {
+    // get rotation() behavior
+    var element = new DrawingElementMock();
+
+    var owner = LineMock.connecting({ x: 0, y: 0 }, { x: 1, y: 1 });
+
+    var strungElement = new StrungElement(element, owner);
+
+    // rotation is read from dataset when present
+    element.domNode.dataset.rotation = `${Math.PI / 3}`;
+    expect(strungElement.rotation).toBe(Math.PI / 3);
+
+    // rotation not set
+    element.domNode.dataset.rotation = '';
+    expect(strungElement.rotation).toBe(0);
+
+    // cached rotation is nonfinite
+    [NaN, Infinity, -Infinity, 'asdf'].forEach(value => {
+      element.domNode.dataset.rotation = `${value}`;
+      expect(strungElement.rotation).toBe(0);
+    });
+
+    // set rotation() behavior
+    var element2 = new DrawingElementMock();
+
+    var owner2 = LineMock.connecting({ x: 0, y: 0 }, { x: 1, y: 1 });
+
+    // place element at the mid-point of the owner so lineX is predictable
+    var midPoint = owner2.atLength(owner2.length / 2);
+
+    element2.centerX = midPoint.x;
+    element2.centerY = midPoint.y;
+
+    element2.direction = 0;
+
+    var strungElement2 = new StrungElement(element2, owner2);
+
+    // ensure zero displacement so direction is just linePoint.direction + rotation
+    strungElement2.displacementMagnitude = 0;
+
+    strungElement2.rotation = Math.PI / 6;
+
+    // updates cached value
+    expect(element2.domNode.dataset.rotation).toBe(`${Math.PI / 6}`);
+
+    var linePoint = owner2.atLength((owner2.length / 2) + strungElement2.lineX);
+
+    // element direction equals owner line direction plus rotation
+    expect(element2.direction).toBeCloseTo(linePoint.direction + (Math.PI / 6));
+
+    // ignores nonfinite values
+    [NaN, Infinity, -Infinity].forEach(value => {
+      strungElement2.rotation = value;
+
+      // unchanged
+      expect(element2.domNode.dataset.rotation).toBe(`${Math.PI / 6}`);
+    });
+  });
+
   test('`get lineX()`', () => {
     // when line X is cached
     element.domNode.dataset.lineX = '-2.85';
@@ -262,6 +321,7 @@ describe('`class StrungElement`', () => {
       expect(strungElement.displacementDirection).toBe(0);
     });
   });
+
 
   test('`set displacementDirection()`', () => {
     var element = new DrawingElementMock();
