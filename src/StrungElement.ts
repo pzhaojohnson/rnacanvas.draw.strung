@@ -12,13 +12,13 @@ import { distance, direction } from '@rnacanvas/points';
 
 import type { DrawingElementsCollection } from './DrawingElementsCollection';
 
-export class StrungElement {
+export class StrungElement<E extends StringableElement, O extends StrungElementOwner> {
   /**
    * Wrapped element.
    */
   readonly #element;
 
-  constructor(element: DrawingElement & Centerable & Partial<Directed>, readonly owner: DrawingElement & Linear) {
+  constructor(element: E, readonly owner: O) {
     this.#element = element;
 
     if (!element.domNode.dataset.lineX) {
@@ -263,3 +263,7 @@ export class StrungElement {
     this.displacementY += dragMagnitude * Math.sin(dragDirection - linePoint.direction);
   }
 }
+
+type StringableElement = DrawingElement & Centerable & Partial<Directed>;
+
+type StrungElementOwner = DrawingElement & Linear;
